@@ -107,8 +107,10 @@ Para isso, **por fim** abrimos a base no Flourish e lá criamos visualizações,
 gráficos,tabelas, entre outros para **passar uma informação** com os **dados** 
 para o público.
 
-Finalmente chegaríamos a ter algo publicável, como está [no nosso Twitter](https://twitter.com/JFemDados/status/1427027960385654795/photo/1)
+Finalmente chegaríamos a ter algo publicável, como está [no nosso Twitter](https://twitter.com/JFemDados/status/1427027960385654795/photo/1) e
+aqui em baixo:
 
+![Alt text](requerimentos-imagem.jpg)
 
 #### Mas por que fazer tudo isso?
 
@@ -142,20 +144,66 @@ na cidade estavam vencidas! Furo jornalístico né? Aí você publicou e foi
 desmentido. Todas essas coisas seriam evitadas se usássemos um software como o
 R.
 
-Aqui entram os conceitos que tinhamos falado antes:
+Aqui entram os conceitos que tinhamos falado antes: o R (e qualquer linguagem) 
+permite recriar ou atualizar um trabalho anterior,ou adaptar um trabalho 
+parecido. Ao invés de fazer tudo de novo, contar tudo de novo, você só roda o 
+mesmo código, ou faz leves alterações nele. Como dissemos, códigos são 
+facilmente **alteráveis** e **adaptáveis**.
 
-O R (e qualquer linguagem) permite recriar ou atualizar um trabalho anterior,
-ou adaptar um trabalho parecido. Ao invés de fazer tudo de novo, contar tudo
-de novo, você só roda o mesmo código, ou faz leves alterações nele. 
-
-Isso significa que seus códigos são facilmente **alteráveis** e **adaptáveis**.
-
-Imagine que queiramos dados de vacinação de Juiz de Fora até Junho.
+Exemplo: Imagine que queiramos dados de vacinação pela Astrazeneca de Juiz de 
+Fora até Maio.
 
 ```{r}
-basedosdados::read_sql() %>% 
-  filter()
+library(magrittr)
+library(dplyr)
+
+rio::import('https://raw.githubusercontent.com/jfemdados/vacinas/main/so-astrazeneca.csv') %>% 
+  filter(data_aplicacao_vacina < '2021-06-01')
 ```
 
-Mas depois surge alguma notícia de necessidade de dados para Agosto
+Mas depois surge alguma notícia de necessidade de dados só até Junho. Se 
+tivéssemos feito algo bem específico com esses dados no Excel, teríamos
+que repetir **todo** o processo. No R, basta mudarmos um número.
 
+```{r}
+rio::import('https://raw.githubusercontent.com/jfemdados/vacinas/main/so-astrazeneca.csv') %>% 
+  filter(data_aplicacao_vacina < '2021-07-01')
+```
+Pronto. Agora temos um mês a mais de vacinas da Astrazeneca aplicadas para
+analisarmos.
+
+Percebam que fizemos a mudança de fato pois o número de linhas foi alterado. 
+Tendo uma base tratada e os códigos podemos ir para qualquer lado muito 
+facilmente e muito rapidamente. Isso é muito importante pois como vocês sabem
+ao criar uma notícia, pode ser de interesse de uma redação atacar diferentes
+caminhos. Usar um código te da justamente essa flexibilidade.
+
+Por fim, o outro problema que tínhamos mencionado. E se fizermos algo errado?
+Com o uso de códigos isso pode ser facilmente corrigido. Ao usarmos códigos
+não só podemos realizar testes, como verificar se uma porcentagem supera 100%
+ou se a população de Juiz de Fora está maior que a de São Paulo, como também
+**compartilhamos** nosso código com qualquer pessoa que queira vê-lo. Usando
+a plataforma [Github](https://www.hostinger.com.br/tutoriais/o-que-github), 
+postamos todo o nosso código sempre que fazemos alguma notícia ou publicação.
+
+Isso ajuda ao que chamamos de **reprodutibilidade** e **auditoria**. O caso do
+jornal que publicou erroneamente que as vacinas estavam vencidas poderia ter 
+sido evitado **se** os códigos tivessem sido publicados e alguém os checasse.
+
+Mas só de publicar os códigos eles são checados automaticamente? Não! São
+outras pessoas que podem checar seu código ou mesmo usar dele para fazer alguma
+análise. Essa compartibilidade é muito importante no mundo da programação. 
+Ao ter acesso ao seu código, outras pessoas podem sugerir mudanças, descobrir
+erros e até acrescentar algo para ajudar sua análise.
+
+#### Em conclusão
+
+O mundo da programação tem um custo de entrada alto. É dificilzinho aprender
+as coisas e a lógica por trás do que ta rolando. O nosso objetivo aqui é 
+mostrar como a programação nos ajuda a sermos mais rápidos, mais flexíveis, mais
+impactantes e a ter mais segurança no que publicamos!
+
+Esperamos que tenham gostado!
+
+Se puderem, sigam-nos no [Twitter](twitter.com/jfemdados) e no Instagram via 
+@jfemdados.
