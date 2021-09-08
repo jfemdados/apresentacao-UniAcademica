@@ -1,0 +1,161 @@
+---
+title: "Workshop JFemDados"
+author: "Matheus Valentim"
+date: "01/09/2021"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Apresentação da JFemDados para estudantes de Jornalismo da UniAcademia
+
+#### O que é a JFemDados
+
+A JFemDados é uma iniciativa formada por estudantes que tem como principal
+objetivo apresentar visualizações de dados variadas sobre a cidade de 
+Juiz de Fora, de uma maneira clara, ilustrativa e principalmente, tentando 
+sempre trazer a tona dados oficiais do município.
+
+Já elaboramos trabalhos de visualização de dados sobre a câmara municipal,
+sobre o PISM, sobre casos e vacinação contra COVID-19, sobre a emissão de gases
+do efeito estufa no município, sobre violência e até sobre educação e diferença 
+salarial na cidade.
+
+Atualmente, temos uma parceria de colaboração com a Tribuna de Minas, onde 
+já publicamos dados sobre casos de COVID-19 na cidade, conteúdos cobrados no
+PISM e atuação da Câmara Municipal.
+
+### Como fazemos os nossos trabalhos
+
+Os principais softwares usados no nosso *workflow* são o R e o Flourish. 
+Na sequência abaixo, os explicamos brevemente e demonstramos em quais etapas 
+usamos cada um deles.
+
+#### Linguagem R
+
+A linguagem de programação R é uma lingua open source, gratuita para uso.
+O foco da linguagem R é ciência de dados e estatística. 
+
+Outras linguagens de programação conhecidas são Python e JavaScript. O R se 
+difere delas pelo seu foco mais pontual: Python é uma linguagem de amplo uso, 
+por exemplo. O R também é muito diferente de pacotes de análise e registro em
+planilha como o Excel e como o LibreOffice por ter uma linha de código. Quando 
+escrevemos um código o material torna-se rapidamente e facilmente
+**reprodutível** e **alterável**. Vamos entrar nessas duas definições mais 
+pra frente. 
+
+No R, inserimos e tratamos bases públicas, disponibilizadas por exemplo pelo
+IBGE, pelo IpeaData, pelo Ministério da Saúde e até pela Prefeitura de Juiz de 
+Fora.
+
+
+#### O Flourish
+
+O Flourish não é uma linguagem de programação, tal qual o R. O Flourish é 
+um site, onde se pode usar bases **já arrumadas**, para se criar visualizações
+com os dados. É de uso gratuito e não requer nenhuma linha de código: pode ser
+uma ótima ferramente mesmo sem o R.
+
+O único requerimento é ter uma conta, o que também é gratuito. Acessem o [site](https://flourish.studio/) para criar a conta e criar suas próprias 
+visualizações! 
+
+
+#### Nosso workflow
+**Primeiro** precisamos **obter** os dados. Essa etapa consiste em diferentes 
+técnicas que tem como objetivo "colocar as bases dentro" do R. Para conseguir 
+os dados podemos usar de pacotes do próprio R desenvolvidos pela comunidade,
+webscrapping (raspagem de dados direto de páginas da web), leitura de pdfs e 
+até imagens, além da clássica leitura de arquivos de planilha, como planilhas
+excel ou .csv.
+
+Abaixo, obtemos os dados de requerimentos feitos a vereadores da Câmara 
+Municipal, no seu formato *raw*, que é como geralmente as bases vêm. Formato
+*raw* significa sem tratamento, "cru", por isso os dados estão bagunçados, não
+estão claros e têm até caracteres não legíveis.
+
+```{r}
+rio::import('https://raw.githubusercontent.com/jfemdados/camara_jf/main/requerimentos/data_raw/requerimentos.csv')
+```
+
+
+**Depois** tratamos os dados. A base acima está completamente bagunçada e não
+podemos colocá-la diretamente em um gráfico: não estaríamos passando nenhuma
+informação. Precisamos deixar a base em um formato compreensível e isso consiste
+em todo o conjunto de processos de organização da base de dados: limpeza de 
+dados inconsistentes(e.g. porcentagens maiores que 100%), reorganização da base 
+(sempre buscando formato tidy), criação de variáveis que antes não existiam(e.g. porcentagem de algo que estava emvalores absolutos), filtrar observações da base 
+(e.g. pegar somente municípios da Zona da Mata em meio a todos municípios 
+brasileiros), entre outras. O eventual tratamento dos dados nos leva a uma base 
+limpa, que pode ser exportada novamente como .csv ou como planilha do excel. 
+Abaixo, os mesmo dados anteriores só que **após** serem tratados e organizados
+para mostrar qual vereador teve mais requerimentos.
+
+```{r}
+rio::import('https://raw.githubusercontent.com/jfemdados/camara_jf/main/requerimentos/exports/requerimentos_por_autor.csv')
+```
+
+Ficou muito mais claro e bacana. Daria até para consultar manualmente, mas como
+vocês devem saber, passar informação é uma corrida por atenção. Precisamos criar
+algo bonito e fácil de se ver, que só de bater o olho passe o que queremos 
+mostrar.
+
+Para isso, **por fim** abrimos a base no Flourish e lá criamos visualizações, 
+gráficos,tabelas, entre outros para **passar uma informação** com os **dados** 
+para o público.
+
+Finalmente chegaríamos a ter algo publicável, como está [no nosso Twitter](https://twitter.com/JFemDados/status/1427027960385654795/photo/1)
+
+
+#### Mas por que fazer tudo isso?
+
+##### Por que fazer a JFemDados
+
+Acreditamos que a população, juizforana, mas também brasileira, tem pleno 
+direito a ter acesso a dados públicos claros. São esses dados que explicam 
+o que tem acontecido no nosso país e, mais localmente, no nosso estado e na 
+nossa cidade. Sem eles, o debate público municipal se torna pobre, dominado
+por achismos. Precisamos que vereadores, prefeitos e responsáveis por políticas
+públicas usem das evidências dos dados para tomar medidas eficientes e que de
+fato tenham impacto na vida das pessoas. Uma outra boa razão é o fato de que 
+com os dados sendo constantemente acessados e bem transparentes, fica mais fácil
+cobrar nossos representantes políticos, garantindo nossa representatividade.
+
+#### Por que fazer a JFemDados desse jeito?
+
+Por que não fazemos tudo no Excel? Por que usamos de programação? Tem várias 
+razões. A talvez mais básica seja porque apesar de não parecer, usar programação
+deixa as coisas mais fáceis.
+
+Imagine que você quer fazer uma matéria sobre vacinação da cidade. Como a
+vacinação é um processo contínuo e você vai provavelmente fazer algo parecido
+em breve novamente né? Como você vai fazer? Ficar acessando o painel de 
+vacinados da cidade todo dia de hoje até seu próximo trabalho? Outra: imagina
+que você queira analisar se os vereadores produziram mais PLs durante a 
+pandemia! Matéria bacana né? Mas você vai contar na mão ou no Excel cada linha?
+E se você contar errado? Por fim: vamos supor que você tenha descoberto algo em
+uma base pública mexendo com ela no Excel. Você descobriu que vacinas aplicadas
+na cidade estavam vencidas! Furo jornalístico né? Aí você publicou e foi 
+desmentido. Todas essas coisas seriam evitadas se usássemos um software como o
+R.
+
+Aqui entram os conceitos que tinhamos falado antes:
+
+O R (e qualquer linguagem) permite recriar ou atualizar um trabalho anterior,
+ou adaptar um trabalho parecido. Ao invés de fazer tudo de novo, contar tudo
+de novo, você só roda o mesmo código, ou faz leves alterações nele. 
+
+Isso significa que seus códigos são facilmente **alteráveis** e **adaptáveis**.
+
+Imagine que queiramos dados de vacinação de Juiz de Fora até Junho.
+
+```{r}
+basedosdados::read_sql() %>% 
+  filter()
+```
+
+Mas depois surge alguma notícia de necessidade de dados para Agosto
+
